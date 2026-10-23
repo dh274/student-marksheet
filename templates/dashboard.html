@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}My tracker | Marksheet Assistance{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Private student area</p>
+    <h1>My application tracker</h1>
+    <p>
+        These statuses are maintained by you. They are not connected to university
+        systems and do not confirm that an application was received or processed.
+    </p>
+    <a class="button button-primary" href="{{ url_for('apply') }}">Add an application record</a>
+</section>
+
+{% if applications %}
+    <div class="application-list">
+        {% for application in applications %}
+            <article class="application-card">
+                <div class="application-card-heading">
+                    <h2>{{ application.student_name }} — Semester {{ application.semester }}</h2>
+                    <span class="status-pill">{{ application.status }}</span>
+                </div>
+                <dl class="record-details">
+                    <div><dt>Registration number</dt><dd>{{ application.registration_number }}</dd></div>
+                    <div><dt>Department</dt><dd>{{ application.department }}</dd></div>
+                    <div><dt>Examination year</dt><dd>{{ application.examination_year }}</dd></div>
+                    <div><dt>College</dt><dd>{{ application.college_name }}</dd></div>
+                    <div class="full-width"><dt>Reason noted</dt><dd>{{ application.reason }}</dd></div>
+                    <div><dt>Record created</dt><dd>{{ application.created_at }}</dd></div>
+                </dl>
+                <form method="post" action="{{ url_for('update_status', application_id=application.id) }}" class="status-form">
+                    {{ status_form.hidden_tag() }}
+                    <label for="status-{{ application.id }}">Update your status</label>
+                    <select id="status-{{ application.id }}" name="status">
+                        {% for status in statuses %}
+                            <option value="{{ status }}"{% if status == application.status %} selected{% endif %}>{{ status }}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="button button-secondary" type="submit">Save status</button>
+                </form>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <section class="next-steps">
+        <h2>No application records yet</h2>
+        <p>Add a record when you are ready. Do not store passwords or upload identity documents here.</p>
+    </section>
+{% endif %}
+{% endblock %}

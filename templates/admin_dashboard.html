@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Admin application records | Marksheet Assistance{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Restricted admin view</p>
+    <h1>Student application records</h1>
+    <p>Keep this information private. This view is accessible only after admin authentication.</p>
+</section>
+{% if applications %}
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th><th>Account email</th><th>Registration no.</th>
+                    <th>Semester / year</th><th>College</th><th>Student status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications %}
+                    <tr>
+                        <td>{{ application.student_name }}</td>
+                        <td>{{ application.account_email }}</td>
+                        <td>{{ application.registration_number }}</td>
+                        <td>{{ application.semester }} / {{ application.examination_year }}</td>
+                        <td>{{ application.college_name }}</td>
+                        <td>{{ application.status }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <section class="next-steps"><p>No application records have been saved.</p></section>
+{% endif %}
+{% endblock %}

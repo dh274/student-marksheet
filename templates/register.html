@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Create account | Marksheet Assistance{% endblock %}
+
+{% block content %}
+<section class="form-card">
+    <p class="eyebrow">Private student account</p>
+    <h1>Create an account</h1>
+    <p>Your account lets you save and view only your own application records.</p>
+    <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-field">
+            {{ form.full_name.label }}
+            {{ form.full_name(autocomplete="name", maxlength="100") }}
+            {% for error in form.full_name.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </div>
+        <div class="form-field">
+            {{ form.email.label }}
+            {{ form.email(autocomplete="email", maxlength="254") }}
+            {% for error in form.email.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </div>
+        <div class="form-field">
+            {{ form.password.label }}
+            {{ form.password(autocomplete="new-password", maxlength="128") }}
+            <small>Use at least 12 characters.</small>
+            {% for error in form.password.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </div>
+        <div class="form-field">
+            {{ form.confirm_password.label }}
+            {{ form.confirm_password(autocomplete="new-password", maxlength="128") }}
+            {% for error in form.confirm_password.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+        </div>
+        {{ form.submit(class_="button button-primary") }}
+    </form>
+    <p class="form-alternative">Already registered? <a href="{{ url_for('login') }}">Sign in</a>.</p>
+</section>
+{% endblock %}

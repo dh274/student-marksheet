@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Student Lost Marksheet Assistance Portal{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('home') }}">Marksheet Assistance</a>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="{{ url_for('documents') }}">Documents</a>
+            <a href="{{ url_for('letter') }}">Letter guidance</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard') }}">My tracker</a>
+                <form method="post" action="{{ url_for('logout') }}" class="inline-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="nav-button" type="submit">Sign out</button>
+                </form>
+            {% elif session.get('is_admin') %}
+                <a href="{{ url_for('admin_dashboard') }}">Admin records</a>
+                <form method="post" action="{{ url_for('admin_logout') }}" class="inline-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="nav-button" type="submit">Admin sign out</button>
+                </form>
+            {% else %}
+                <a href="{{ url_for('login') }}">Sign in</a>
+                <a href="{{ url_for('register') }}">Create account</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages" aria-live="polite">
+                    {% for category, message in messages %}
+                        <p class="flash flash-{{ category }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+        <p>
+            This is an assistance portal, not an official university website.
+            Tracker statuses are maintained by the student and are not official university updates.
+        </p>
+    </footer>
+</body>
+</html>

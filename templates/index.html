@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+    <p class="eyebrow">A clear first step toward a replacement</p>
+    <h1>Student Lost Marksheet Assistance Portal</h1>
+    <p class="intro">
+        Lost a semester marksheet? Find guidance to prepare for asking your university
+        about an official duplicate.
+    </p>
+    <div class="actions">
+        <a class="button button-primary" href="{{ url_for('apply') }}">Apply for a duplicate</a>
+        <a class="button button-secondary" href="{{ url_for('documents') }}">View required documents</a>
+        <a class="button button-secondary" href="{{ url_for('letter') }}">Application letter</a>
+    </div>
+</section>
+
+<section class="notice" aria-label="Important information">
+    <strong>Important:</strong> The university alone can issue an official duplicate
+    marksheet. Confirm current instructions directly with your university before applying.
+</section>
+
+<section id="next-steps" class="next-steps">
+    <h2>Start with the basics</h2>
+    <p>
+        Create an account to save a private application record and maintain your own
+        preparation status. Never upload passwords or unnecessary identity documents.
+    </p>
+</section>
+{% endblock %}
